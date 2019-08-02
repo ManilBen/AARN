@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.anychart.com/releases/8.6.0/js/anychart-base.min.js" type="text/javascript"></script>
+   	<script src="https://cdn.anychart.com/releases/8.6.0/js/anychart-core.min.js"></script>
+	<script src="https://cdn.anychart.com/releases/8.6.0/js/anychart-polar.min.js"></script>
+	<script src="https://cdn.anychart.com/releases/8.6.0/js/anychart-pie.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+	    <style type="text/css">
+		    .main{
+		        background-image: linear-gradient(rgba(0, 0, 0, 0.9),rgba(0, 0, 0, 0.5)),url("http://localhost/AARN/background.svg");
+		        background-size:100% 100%;
+		    }
+		    .employee{
+		    	height: 400px;
+		    	margin-bottom: 150px;
+  				box-shadow: 0 19px 38px rgba(255,193,7,0.30), 0 15px 12px rgba(0,0,0,0.22);
+		    }
+		    .employeeinmodal{
+		    	height: 250px;
+		    	margin-bottom: 50px;
+  				box-shadow: 0 19px 38px rgba(255,193,7,0.30), 0 15px 12px rgba(0,0,0,0.22);
+		    }
+		    .employeeinmodal img{
+		    	width: 200px;
+		    	height: 200px;
+		    	border-radius: 50%;
+		    	display: block;
+		    	margin: auto;
+		    	border: 1px solid #ffc107;
+  				box-shadow: 0 19px 38px rgba(255,193,7,0.30), 0 15px 12px rgba(0,0,0,0.22);
+		    }
+		    .employee button{
+		    	display: block;
+		    	margin: auto;
+		    	background-color: #ffc107;
+		    	border:1px solid #ffc107;
+		    	font-size: 20px;
+		    	color: white;
+		    	font-weight: bold;
+		    }
+		    .employee button:hover{
+		    	background-color: white;
+		    	border:1px solid #ffc107;
+		    	color: #ffc107;
+		    }
+		    .employee img{
+		    	width: 200px;
+		    	height: 200px;
+		    	border-radius: 50%;
+		    	display: block;
+		    	margin: auto;
+		    	border: 1px solid #ffc107;
+  				box-shadow: 0 19px 38px rgba(255,193,7,0.30), 0 15px 12px rgba(0,0,0,0.22);
+		    }
+			.employee:hover{
+			    opacity: 0.9;
+			}
+		    .rowcontainer{
+		    	margin-top: 100px;
+		    }
+		    .modal-content{
+		    	width: 900px;
+		    	margin-left: -200px;
+		    }
+		    p{
+		    	color:white;
+		    	font-size: 30px;
+		    }
+		    .modal p{
+		    	color: black;
+		    }
+		    .infos{
+		    	margin-top: 50px;
+		    }
+			.header{
+				margin-top: 100px;
+				color: #ffc107;
+				font-size: 50px;
+			}
+		    .Start button{
+		    	display: block;
+		    	margin: auto;
+		    	background-color: #ffc107;
+		    	border:1px solid #ffc107;
+		    	font-size: 20px;
+		    	color: white;
+		    	font-weight: bold;
+		    }
+		    .Start button:hover{
+		    	background-color: white;
+		    	border:1px solid #ffc107;
+		    	color: #ffc107;
+		    }
+		</style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row main">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-12">
+								<h1 class="text-center font-weight-bold header" id="header">Control system dashbord</h1>
+							</div>
+						</div>
+						<div class="row rowcontainer">
+							<div class="col-lg-3 col-md-4 col-sm-6 col-6 employee">
+								<img id="x1" src="http://localhost/AARN/employe/emp1.svg" alt="">
+								<div class="container">
+									<div class="row infos">
+										<div class="col-lg-6">
+											<p class="name text-center font-weight-bold" id="x2">Yacine</p>
+										</div>
+										<div class="col-lg-6">
+											<button class="btn btn-primary" data-toggle="modal" data-target="#Modal" onclick="Recupere('x1','x2','x3');" >Explore</button>	
+										</div>
+										<div class="col-lg-12">
+											<p class="post text-center font-weight-bold" id="x3">Web developer</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-4 col-sm-6 col-6 employee">
+								<img id="y1" src="http://localhost/AARN/employe/emp6.svg" alt="">
+								<div class="container">
+									<div class="row infos">
+										<div class="col-lg-6">
+											<p class="name text-center font-weight-bold" id="y2">Meriem</p>
+										</div>
+										<div class="col-lg-6">
+											<button class="btn btn-primary" data-toggle="modal" data-target="#Modal" onclick="Recupere('y1','y2','y3');" >Explore</button>	
+										</div>
+										<div class="col-lg-12">
+											<p class="post text-center font-weight-bold" id="y3">Graphic designer</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-4 col-sm-6 col-6 employee">
+								<img id="z1" src="http://localhost/AARN/employe/emp7.svg" alt="">
+								<div class="container">
+									<div class="row infos">
+										<div class="col-lg-6">
+											<p class="name text-center font-weight-bold" id="z2">Ali</p>
+										</div>
+										<div class="col-lg-6">
+											<button class="btn " data-toggle="modal" data-target="#Modal" onclick="Recupere('z1','z2','z3');" >Explore</button>	
+										</div>
+										<div class="col-lg-12">
+											<p class="post text-center font-weight-bold" id="z3">Project manager</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-4 col-sm-6 col-6 employee">
+								<img id="w1" src="http://localhost/AARN/employe/emp4.svg" alt="">
+								<div class="container">
+									<div class="row infos">
+										<div class="col-lg-6">
+											<p class="name  text-center font-weight-bold" id="w2">Cédric</p>
+										</div>
+										<div class="col-lg-6">
+											<button class="btn btn-primary" data-toggle="modal" data-target="#Modal" onclick="Recupere('w1','w2','w3');" >Explore</button>	
+										</div>
+										<div class="col-lg-12">
+											<p class="post text-center font-weight-bold" id="w3">Mobile developer</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row footer">
+				<div class="col-lg-6">
+				</div>
+				<div class="col-lg-6">
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="Modal" tabindex="-1" aria-hidden="true" >
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <h2 class="font-weight-bold">Examiner l'employé</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-6 employeeinmodal">
+									<p class="name text-center font-weight-bold" id="nameinmodal" name="nameinmodal"></p>
+									<p class="post text-center font-weight-bold" id="postinmodal" name="postinmadal"></p>
+								</div>
+								<div class="col-lg-6 employeeinmodal">
+									<img id="imageinmodal" src="" alt="">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-3">
+									<br><br>
+									<div class="input-group input-group-lg">
+								  		<div class="input-group-prepend">
+								    		<span class="input-group-text" id="inputGroup-sizing-lg">wACCX</span>
+								  		</div>
+								  		<input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" disabled id="wACCX">
+									</div>
+									<br><br><br>
+									<div class="input-group input-group-lg">
+								  		<div class="input-group-prepend">
+								    		<span class="input-group-text" id="inputGroup-sizing-lg">wACCY</span>
+								  		</div>
+								  		<input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" disabled id="wACCY">
+									</div>
+									<br><br><br>
+									<div class="input-group input-group-lg">
+								  		<div class="input-group-prepend">
+								    		<span class="input-group-text" id="inputGroup-sizing-lg">wACCZ</span>
+								  		</div>
+								  		<input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" disabled id="wACCZ">
+									</div>									
+								</div>
+								<div class="col-lg-6" class="chart" id="chart" style="height: 400px;width: 400px;">
+								</div>
+								<div class="col-lg-3">
+									<br><br>
+									<div class="input-group input-group-lg">
+								  		<div class="input-group-prepend">
+								    		<span class="input-group-text" id="inputGroup-sizing-lg">wBVP</span>
+								  		</div>
+								  		<input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" disabled id="wBVP">
+									</div>
+									<br><br><br>
+									<div class="input-group input-group-lg">
+								  		<div class="input-group-prepend">
+								    		<span class="input-group-text" id="inputGroup-sizing-lg">wEDA</span>
+								  		</div>
+								  		<input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" disabled id="wEDA">
+									</div>
+									<br><br><br>
+									<div class="input-group input-group-lg">
+								  		<div class="input-group-prepend">
+								    		<span class="input-group-text" id="inputGroup-sizing-lg">wTEMP</span>
+								  		</div>
+								  		<input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" disabled id="wTEMP">
+									</div>									
+								</div>
+								<div class="col-lg-5">
+									<div class="input-group input-group-lg">
+								  		<div class="input-group-prepend">
+								    		<span class="input-group-text" id="inputGroup-sizing-lg">Real result</span>
+								  		</div>
+								  		<input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" disabled id="RS" value="">
+									</div>
+								</div>
+								<div class="col-lg-5">
+									<div class="input-group input-group-lg">
+								  		<div class="input-group-prepend">
+								    		<span class="input-group-text" id="inputGroup-sizing-lg">Predictable result</span>
+								  		</div>
+								  		<input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" disabled id="PR" value="1.0">
+									</div>
+								</div>
+								<div class="col-lg-2 Start">
+									<button type="button" class="btn btn-primary" style="float: right;" onclick="setChart();">Start</button>
+								</div>
+								<div class="col-lg-6" class="piechart1" id="piechart1" style="height:300px;width:300px;">
+								</div>
+								<div class="col-lg-6" class="piechart2" id="piechart2" style="height:300px;width:300px;">
+								</div>
+								<div class="col-lg-6">
+									<div class="input-group input-group-lg">
+								  		<div class="input-group-prepend">
+								    		<span class="input-group-text" id="inputGroup-sizing-lg">Global reel result</span>
+								  		</div>
+								  		<input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" disabled id="GlobalReelResult">
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="input-group input-group-lg">
+								  		<div class="input-group-prepend">
+								    		<span class="input-group-text" id="inputGroup-sizing-lg">Global predictable result</span>
+								  		</div>
+								  		<input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" disabled id="GlobalPrectableResult">
+									</div>
+								</div>
+							</div>
+						</div>
+                        <div class="modal-footer ">
+                            <button type="button" class="btn btn-danger pull-left "  data-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</body>
+	<script src="jquery-3.1.1.js" type="text/javascript"></script>
+	<script>
+//////////// read jison file for the first default value
+			var id;
+			var min=0;var max=10000;  
+			id = Math.floor(Math.random() * (max - min) + min); 
+			function readTextFile(file, callback) {
+			    var rawFile = new XMLHttpRequest();
+			    rawFile.overrideMimeType("application/json");
+			    rawFile.open("GET", file, true);
+			    rawFile.onreadystatechange = function() {
+			        if (rawFile.readyState === 4 && rawFile.status == "200") {
+			            callback(rawFile.responseText);
+			        }
+			    }
+			    rawFile.send(null);
+			}
+			readTextFile("http://localhost/AARN/input.json", function(text){
+			    var data = JSON.parse(text);
+			    input1=data[id].wACCX;
+			    input2=data[id].wACCY;
+			    input3=data[id].wACCZ;
+			    input4=data[id].wBVP;
+			    input5=data[id].wEDA;
+			    input6=data[id].wTEMP;
+			    chart(input1,input2,input3,input4,input5,input6);
+			});
+			readTextFile("http://localhost/AARN/target.json", function(targ){
+				var target = JSON.parse(targ);
+				var  RS= document.getElementById('RS');
+				if(target[id].Zr=="1.0"){
+					RS.value = 0;
+				}
+				if(target[id].On=="1.0"){
+					RS.value = 1;
+				}
+				if(target[id].Tw=="1.0"){
+					RS.value = 2;
+				}
+				if(target[id].Th=="1.0"){
+					RS.value = 3;
+				}
+				if(target[id].Fr=="1.0"){
+					RS.value = 4;
+				}
+			});
+////////////////////// Charger les charts par default avant le lancement 
+		function chart(input1,input2,input3,input4,input5,input6){
+			data = [
+			  ["wACCX",input1],
+			  ["wACCY",input2],
+			  ["wACCZ",input3],
+			  ["wBVP", input4],
+			  ["wEDA", input5],
+			  ["wTEMP",input6]
+			];
+			chart = anychart.polar();
+			series = chart.polyline(data);
+			chart.xScale("ordinal");
+			chart.sortPointsByX(true);
+			chart.innerRadius(50);
+			series.normal().stroke("#ffc107", 4, "10 5", "round");
+			chart.container("chart");
+			chart.draw();
+			//piechart1 for reel output
+			data_piechart1 = [
+				{x: "Etat transitoire", value: 1},
+				{x: "Etat de base", value: 1},
+				{x: "Etat de stress", value: 1},
+				{x: "Etat d'amusement", value: 1},
+				{x: "Etat de mediation", value: 1}
+			];
+			piechart1 = anychart.pie();
+			piechart1.data(data_piechart1);
+			piechart1.container("piechart1");
+			piechart1.draw();
+			//piechart2 for predictable output
+			data_piechart2 = [
+				{x: "Etat transitoire", value: 1},
+				{x: "Etat de base", value: 1},
+				{x: "Etat de stress", value: 1},
+				{x: "Etat d'amusement", value: 1},
+				{x: "Etat de mediation", value: 1}
+			];
+			piechart2 = anychart.pie();
+			piechart2.data(data_piechart2);
+			piechart2.container("piechart2");
+			piechart2.draw();
+		}
+///////////////////////////////////////////////// call model
+		function execute(par1,par2,par3,par4,par5,par6) {
+			$.ajax({
+				type:'get',
+				url: "/AARN/topython.php",
+				data: { 
+					wACCX : par1,
+					wACCY : par2,
+					wACCZ : par3,
+					wBVP : par4,
+					wEDA : par5,
+					wTEMP : par6
+				},
+				success: function(data){
+					console.log(data);
+					var  PR= document.getElementById('PR');
+    				PR.value = data[1];
+					switch(PR.value){
+						case "0" : cptp0++;
+							if(cptp0>PMax){
+								GPR=0;
+								PMax=cptp0;
+								var  gpr= document.getElementById('GlobalPrectableResult');
+	    						gpr.value = "Etat transitoire";
+							} 						
+							break;
+						case "1": cptp1++;
+							if(cptp1>PMax){
+								GPR=1;
+								PMax=cptp1;
+								var  gpr= document.getElementById('GlobalPrectableResult');
+	    						gpr.value = "Etat de base";
+							} 						
+							break;
+						case "2": cptp2++;
+							if(cptp2>PMax){
+								GPR=2;
+								PMax=cptp2;
+								var  gpr= document.getElementById('GlobalPrectableResult');
+	    						gpr.value = "Etat de stress";
+							} 						
+							break;
+						case "3": cptp3++;
+							if(cptp3>PMax){
+								GPR=3;
+								PMax=cptp3;
+								var  gpr= document.getElementById('GlobalPrectableResult');
+	    						gpr.value = "Etat d'amusement";
+							} 						
+							break;
+						case "4": cptp4++;
+							if(cptp4>PMax){
+								GPR=4;
+								RMax=cptp4;
+								var  gpr= document.getElementById('GlobalPrectableResult');
+	    						gpr.value = "Etat de mediation";
+							} 						
+							break;
+					}
+					data_piechart2 = [
+						{x: "Etat transitoire", value: cptp0},
+						{x: "Etat de base", value: cptp1},
+						{x: "Etat de stress", value: cptp2},
+						{x: "Etat d'amusement", value: cptp3},
+						{x: "Etat de mediation", value: cptp4},
+					];
+					piechart2.data(data_piechart2);
+					}
+			});
+		}
+///////////////////////////////////////////////////
+			var wACCX =document.getElementById('wACCX');
+			var wACCY =document.getElementById('wACCY');
+			var wACCZ =document.getElementById('wACCZ');
+			var wBVP =document.getElementById('wBVP');
+			var wEDA =document.getElementById('wEDA');
+			var wTEMP =document.getElementById('wTEMP');
+			var data;
+			var chart;
+			var series;
+			var data_piechart1;
+			var piechart1;
+			var data_piechart2;
+			var piechart2;
+			var cpt0=0;
+			var cpt1=0;
+			var cpt2=0;
+			var cpt3=0;
+			var cpt4=0;
+			var cptp0=0;
+			var cptp1=0;
+			var cptp2=0;
+			var cptp3=0;
+			var cptp4=0;
+			var RMax=0;
+			var PMax=0;
+			var GRR=0;
+			var GPR=0;
+		//SET the chart after the call	
+		function setChart(){
+			var min=0;var max=10000;  
+			var id = Math.floor(Math.random() * (max - min) + min); 
+			console.log(id);
+			function readTextFile(file, callback) {
+			    var rawFile = new XMLHttpRequest();
+			    rawFile.overrideMimeType("application/json");
+			    rawFile.open("GET", file, true);
+			    rawFile.onreadystatechange = function() {
+			        if (rawFile.readyState === 4 && rawFile.status == "200") {
+			            callback(rawFile.responseText);
+			        }
+			    }
+			    rawFile.send(null);
+			}
+			//charger une valeur aléatoire des donnés du test et l'aficher 
+			readTextFile("http://localhost/AARN/input.json", function(text){
+			    var data = JSON.parse(text);
+			    Object1 = data[id];
+			    input1=data[id].wACCX;
+			    input2=data[id].wACCY;
+			    input3=data[id].wACCZ;
+			    input4=data[id].wBVP;
+			    input5=data[id].wEDA;
+			    input6=data[id].wTEMP;
+			    console.log(data[id]);
+				wACCX.value =input1;
+				wACCY.value =input2;
+				wACCZ.value =input3;
+				wBVP.value =input4;
+				wEDA.value =input5;
+				wTEMP.value =input6;
+				execute(input1,input2,input3,input4,input5,input6);//envoyer l'input au model 
+			});
+			chart.removeSeriesAt(0);
+			data = [
+			  ["wACCX",input1],
+			  ["wACCY",input2],
+			  ["wACCZ",input3],
+			  ["wBVP", input4],
+			  ["wEDA", input5],
+			  ["wTEMP",input6]
+			];
+			series = chart.polyline(data);
+			series.normal().stroke("#ffc107", 4, "10 5", "round");
+			//chargé le target real et l'afficher
+			readTextFile("http://localhost/AARN/target.json", function(targ){
+				var target = JSON.parse(targ);
+				var  RS= document.getElementById('RS');
+				console.log(target[id]);
+				if(target[id].Zr=="1.0"){
+					RS.value = 0;
+				}
+				if(target[id].On=="1.0"){
+					RS.value = 1;
+				}
+				if(target[id].Tw=="1.0"){
+					RS.value = 2;
+				}
+				if(target[id].Th=="1.0"){
+					RS.value = 3;
+				}
+				if(target[id].Fr=="1.0"){
+					RS.value = 4;
+				}    			
+    			if(target[id].Zr=="1.0"){
+					cpt0++;
+					if(cpt0>RMax){
+						GRR=0.0;
+						RMax=cpt0;
+						var  grr= document.getElementById('GlobalReelResult');
+						grr.value = "Etat transitoire";
+					} 
+				}
+				if(target[id].On=="1.0"){
+					cpt1++;
+					if(cpt1>RMax){
+						GRR=1.0;
+						RMax=cpt1;
+						var  grr= document.getElementById('GlobalReelResult');
+						grr.value = "Etat de base";
+					} 
+				}
+				if(target[id].Tw=="1.0"){
+					cpt2++;
+					if(cpt2>RMax){
+						GRR=2.0;
+						RMax=cpt2;
+						var  grr= document.getElementById('GlobalReelResult');
+						grr.value = "Etat de stress";
+					}
+				}
+				if(target[id].Th=="1.0"){
+					cpt3++;
+					if(cpt3>RMax){
+						GRR=3.0;
+						RMax=cpt3;
+						var  grr= document.getElementById('GlobalReelResult');
+						grr.value = "Etat d'amusement";
+					}
+				}
+				if(target[id].Fr=="1.0"){
+					cpt4++;
+					if(cpt4>RMax){
+						GRR=4.0;
+						RMax=cpt4;
+						var  grr= document.getElementById('GlobalReelResult');
+						grr.value = "Etat de mediation";
+					} 
+				}
+				data_piechart1 = [
+					{x: "Etat transitoire", value: cpt0},
+					{x: "Etat de base", value: cpt1},
+					{x: "Etat de stress", value: cpt2},
+					{x: "Etat d'amusement", value: cpt3},
+					{x: "Etat de mediation", value: cpt4},
+				];
+				piechart1.data(data_piechart1);
+			});
+			setTimeout(setChart,5000);
+		}
+	</script>
+    <script type="text/javascript" charset="utf-8" async defer>
+    	function Recupere(x,y,z){
+    		imageinmodal = document.getElementById('imageinmodal');
+    		imageinmodal.src=document.getElementById(x).src;
+    		nameinmodal = document.getElementById('nameinmodal');
+    		nameinmodal.textContent = document.getElementById(y).textContent;
+    		postinmodal = document.getElementById('postinmodal');
+    		postinmodal.textContent = document.getElementById(z).textContent;
+    	}		
+    </script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>

@@ -1,0 +1,5 @@
+https://stackoverflow.com/
+https://www.tensorflow.org/guide/keras
+https://docs.anychart.com/Quick_Start/Quick_Start
+https://getbootstrap.com/docs/4.3/getting-started/introduction/
+https://undraw.co/illustrations
